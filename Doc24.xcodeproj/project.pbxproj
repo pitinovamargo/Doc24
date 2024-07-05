@@ -11,6 +11,7 @@
 		6461BBE12C382FCB0095E7BD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6461BBE02C382FCB0095E7BD /* ContentView.swift */; };
 		6461BBE32C382FCE0095E7BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6461BBE22C382FCE0095E7BD /* Assets.xcassets */; };
 		6461BBE62C382FCE0095E7BD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6461BBE52C382FCE0095E7BD /* Preview Assets.xcassets */; };
+		6461BBEF2C38746E0095E7BD /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6461BBEE2C38746E0095E7BD /* Launch Screen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		6461BBE22C382FCE0095E7BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6461BBE52C382FCE0095E7BD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6461BBE72C382FCE0095E7BD /* Doc24.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Doc24.entitlements; sourceTree = "<group>"; };
+		6461BBEE2C38746E0095E7BD /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				6461BBDE2C382FCB0095E7BD /* Doc24App.swift */,
 				6461BBE02C382FCB0095E7BD /* ContentView.swift */,
+				6461BBEE2C38746E0095E7BD /* Launch Screen.storyboard */,
 				6461BBE22C382FCE0095E7BD /* Assets.xcassets */,
 				6461BBE72C382FCE0095E7BD /* Doc24.entitlements */,
 				6461BBE42C382FCE0095E7BD /* Preview Content */,
@@ -127,6 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6461BBEF2C38746E0095E7BD /* Launch Screen.storyboard in Resources */,
 				6461BBE62C382FCE0095E7BD /* Preview Assets.xcassets in Resources */,
 				6461BBE32C382FCE0095E7BD /* Assets.xcassets in Resources */,
 			);
@@ -280,6 +284,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -314,6 +319,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
