@@ -14,40 +14,54 @@ struct ContentView: View {
         VStack {
             TabView {
                 ZStack {
-                    Color.red.edgesIgnoringSafeArea(.top)
-                    Text("Красная вкладка")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
+                    Color.grayLight.edgesIgnoringSafeArea(.top)
+                    Text("Педиатры")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
                 }
+                .background(Color.white)
+                .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Главная", systemImage: "1.square.fill")
+                    Label("Главная", image: "House")
                 }
+                
+                // вторая вкладка таббара
                 ZStack {
-                    Color.blue.edgesIgnoringSafeArea(.top)
-                    Text("Синяя вкладка")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
+                    Color.grayLight.edgesIgnoringSafeArea(.top)
+                    Text("Приёмы")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
                 }
+                .background(Color.white)
+                .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Приёмы", systemImage: "2.square.fill")
+                    Label("Приёмы", image: "Calendar")
                 }
+                
+                // третья вкладка таббара
                 ZStack {
-                    Color.blue.edgesIgnoringSafeArea(.top)
-                    Text("Синяя вкладка")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
+                    Color.grayLight.edgesIgnoringSafeArea(.top)
+                    Text("Чат")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
                 }
+                .background(Color.white)
+                .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Чат", systemImage: "2.square.fill")
+                    Label("Чат", image: "Chat")
                 }
+                
+                // четвертая вкладка таббара
                 ZStack {
-                    Color.blue.edgesIgnoringSafeArea(.top)
-                    Text("Синяя вкладка")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
+                    Color.grayLight.edgesIgnoringSafeArea(.top)
+                    Text("Профиль")
+                        .font(.system(size: 20))
+                        .foregroundColor(.black)
                 }
+                .background(Color.white)
+                .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Профиль", systemImage: "2.square.fill")
+                    Label("Профиль", image: "Profile")
                 }
             }
             .frame(maxHeight: .infinity)
