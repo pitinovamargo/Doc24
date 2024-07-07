@@ -10,7 +10,7 @@ import SwiftUI
 struct Doctor: Identifiable {
     var id = UUID()
     var name: String
-    var experience: String
+    var experience: Int
     var price: String
     var rating: Int
     var isLiked: Bool
@@ -18,7 +18,7 @@ struct Doctor: Identifiable {
 }
 
 enum SortOption {
-    case none, price, experience, rating
+    case price, experience, rating
 }
 
 struct ContentView: View {
@@ -27,18 +27,29 @@ struct ContentView: View {
     @State private var selectedSort: SortOption = .price
     
     private var doctors: [Doctor] = [
-        Doctor(name: "Семенова Дарья Сергеевна", experience: "Педиатр・стаж 27 лет", price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
-        Doctor(name: "Бардо Кристина Алексеевна", experience: "Педиатр・стаж 10 лет", price: "от 600 ₽", rating: 4, isLiked: true, imageName: "Photo2"),
-        Doctor(name: "Семенова Дарья Сергеевна", experience: "Педиатр・стаж 27 лет", price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
-        Doctor(name: "Бардо Кристина Алексеевна", experience: "Педиатр・стаж 10 лет", price: "от 600 ₽", rating: 4, isLiked: true, imageName: "Photo2")
+        Doctor(name: "Семенова Дарья Сергеевна", experience: 27, price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
+        Doctor(name: "Бардо Кристина Алексеевна", experience: 10, price: "от 700 ₽", rating: 4, isLiked: true, imageName: "Photo2"),
+        Doctor(name: "Семенова Дарья Сергеевна", experience: 15, price: "от 300 ₽", rating: 3, isLiked: false, imageName: "Photo1"),
+        Doctor(name: "Бардо Кристина Алексеевна", experience: 2, price: "от 800 ₽", rating: 1, isLiked: true, imageName: "Photo2")
     ]
     
     private var filteredDoctors: [Doctor] {
-        if searchDoctor.isEmpty {
-            return doctors
-        } else {
-            return doctors.filter { $0.name.lowercased().contains(searchDoctor.lowercased()) }
+        var result = doctors
+        
+        if !searchDoctor.isEmpty {
+            result = doctors.filter { $0.name.lowercased().contains(searchDoctor.lowercased()) }
         }
+        
+        switch selectedSort {
+        case .price:
+            result = result.sorted { $0.price < $1.price }
+        case .experience:
+            result = result.sorted { $0.experience > $1.experience }
+        case .rating:
+            result = result.sorted { $0.rating > $1.rating }
+        }
+        
+        return result
     }
     
     var body: some View {
@@ -171,7 +182,7 @@ struct SortButtonsView: View {
                 selectedSort = .price
                 priceSort()
             }) {
-                Text("По цене ↓")
+                Text("По цене")
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 7)
             }
@@ -233,7 +244,7 @@ struct DoctorCard: View {
                         .foregroundColor(.black)
                     RatingView(rating: doctor.rating)
                         .padding(.vertical, 4)
-                    Text(doctor.experience)
+                    Text("Педиатр・стаж \(doctor.experience) лет")
                         .font(.system(size: 14))
                         .foregroundColor(.grayDark)
                         .padding(.vertical, 4)
