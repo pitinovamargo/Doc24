@@ -17,22 +17,54 @@ struct ContentView: View {
             TabView {
                 ZStack {
                     Color.grayLight.edgesIgnoringSafeArea(.top)
-                    Text("Педиатры")
-                        .font(.system(size: 20))
-                        .foregroundColor(.black)
-                    TextField("Поиск", text: $searchDoctor)
-                        .padding(.horizontal, 16)
-                        .frame(height: 48)
-                        .background(Color.white)
-                        .foregroundColor(Color.gray)
-                        .clipShape(
-                            UnevenRoundedRectangle(
-                                topLeadingRadius: 0,
-                                bottomLeadingRadius: 20,
-                                bottomTrailingRadius: 20,
-                                topTrailingRadius: 0
-                            )
-                        )
+                    VStack {
+                        Text("Педиатры")
+                            .font(.system(size: 20))
+                            .foregroundColor(.black)
+                        TextField("Поиск", text: $searchDoctor)
+                                        .padding(9)
+                                        .padding(.horizontal, 25)
+                                        .background(Color(.white))
+                                        .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
+                                        .overlay(
+                                            HStack {
+                                                Image(systemName: "magnifyingglass")
+                                                    .foregroundColor(.silver)
+                                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                                    .padding(.leading, 8)
+
+                                                if !searchDoctor.isEmpty {
+                                                    Button(action: {
+                                                        self.searchDoctor = ""
+                                                    }) {
+                                                        Image(systemName: "multiply.circle.fill")
+                                                            .foregroundColor(.grayBasic)
+                                                            .padding(.trailing, 8)
+                                                    }
+                                                }
+                                            }
+                                        )
+                                        .cornerRadius(8)
+                                        .padding(.horizontal, 10)
+
+                        HStack {
+                            Button(action: priceSort) {
+                                Text("По цене ↓")
+                            }
+                            .padding()
+                            .tint(.pinkAccent)
+                            Button(action: experienceSort) {
+                                Text("По стажу")
+                            }
+                            .padding()
+                            .tint(.pinkAccent)
+                            Button(action: ratingSort) {
+                                Text("По рейтингу")
+                            }
+                            .padding()
+                            .tint(.pinkAccent)
+                        }
+                    }
                 }
                 .background(Color.white)
                 .accentColor(.pinkAccent)
@@ -81,12 +113,20 @@ struct ContentView: View {
             }
             .frame(maxHeight: .infinity)
         }
-
+        
         
     }
     
     
-    
+    private func priceSort() {
+        //TODO: priceSort
+    }
+    private func experienceSort() {
+        //TODO: experienceSort
+    }
+    private func ratingSort() {
+        //TODO: ratingSort
+    }
     
     
 }
