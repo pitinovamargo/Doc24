@@ -15,6 +15,7 @@ struct Doctor: Identifiable {
     var rating: Int
     var isLiked: Bool
     var imageName: String
+    var available: Bool
 }
 
 enum SortOption {
@@ -27,10 +28,10 @@ struct ContentView: View {
     @State private var selectedSort: SortOption = .price
     
     private var doctors: [Doctor] = [
-        Doctor(name: "Семенова Дарья Сергеевна", experience: 27, price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
-        Doctor(name: "Бардо Кристина Алексеевна", experience: 10, price: "от 700 ₽", rating: 4, isLiked: true, imageName: "Photo2"),
-        Doctor(name: "Семенова Дарья Сергеевна", experience: 15, price: "от 300 ₽", rating: 3, isLiked: false, imageName: "Photo1"),
-        Doctor(name: "Бардо Кристина Алексеевна", experience: 2, price: "от 800 ₽", rating: 1, isLiked: true, imageName: "Photo2")
+        Doctor(name: "Семенова\nДарья Сергеевна", experience: 27, price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1", available: true),
+        Doctor(name: "Бардо\nКристина Алексеевна", experience: 10, price: "от 700 ₽", rating: 4, isLiked: true, imageName: "Photo2", available: false),
+        Doctor(name: "Осташков\nКирилл Вячеславович", experience: 9, price: "от 400 ₽", rating: 5, isLiked: false, imageName: "Photo3", available: true),
+        Doctor(name: "Бардо\nКристина Алексеевна", experience: 2, price: "от 800 ₽", rating: 1, isLiked: true, imageName: "Photo2", available: true)
     ]
     
     private var filteredDoctors: [Doctor] {
@@ -73,7 +74,8 @@ struct ContentView: View {
                                         DoctorCard(doctor: doctor)
                                     }
                                 }
-                                .padding(.horizontal, 16)
+//                                .padding(.horizontal, 16)
+//                                .padding(.vertical, 8)
                             }
                         }
                     }
@@ -242,6 +244,7 @@ struct DoctorCard: View {
                     Text(doctor.name)
                         .font(.system(size: 16))
                         .foregroundColor(.black)
+                        .fontWeight(.semibold)
                     RatingView(rating: doctor.rating)
                         .padding(.vertical, 4)
                     Text("Педиатр・стаж \(doctor.experience) лет")
@@ -252,6 +255,7 @@ struct DoctorCard: View {
                         .font(.system(size: 16))
                         .foregroundColor(.black)
                         .padding(.vertical, 4)
+                        .fontWeight(.semibold)
                 }
                 Spacer()
                 Button(action: {
@@ -261,6 +265,7 @@ struct DoctorCard: View {
                         .foregroundColor(doctor.isLiked ? .pinkAccent : .grayDark)
                 }
             }
+            .padding(16)
             
             Button(action: {
                 // Действие при нажатии на кнопку "Записаться"
@@ -268,14 +273,16 @@ struct DoctorCard: View {
                 Text("Записаться")
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 15)
+                    .fontWeight(.semibold)
                     .background(Color.pinkAccent)
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
+            .padding(16)
         }
         .background(Color.white)
         .cornerRadius(8)
-        .padding(16)
+        .padding(.horizontal, 16)
     }
 }
 
@@ -287,10 +294,141 @@ struct RatingView: View {
             ForEach(0..<5) { index in
                 Image(systemName: index < rating ? "star.fill" : "star")
                     .foregroundColor(index < rating ? .pinkAccent : .grayDark)
+                    .font(.system(size: 12))
             }
+            .padding(1.2)
+
         }
     }
 }
+
+
+
+
+//struct DoctorCardView: View {
+//    let doctor: Doctor
+//    var action: (Doctor) -> Void
+//    
+//    var body: some View {
+//        Button(action: {
+//            action(doctor)
+//        }) {
+//            VStack(alignment: .leading, spacing: 8) {
+//                HStack {
+//                    Image(systemName: "person.circle.fill")
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .clipShape(Circle())
+//                    VStack(alignment: .leading) {
+//                        Text(doctor.name)
+//                            .font(.headline)
+//                        HStack {
+//                            ForEach(0..<doctor.rating, id: \.self) { _ in
+//                                Image(systemName: "star.fill")
+//                                    .foregroundColor(.pink)
+//                            }
+//                        }
+//                        Text("Педиатр - стаж \(doctor.experience) лет")
+//                            .font(.subheadline)
+//                            .foregroundColor(.gray)
+//                    }
+//                    Spacer()
+//                    Image(systemName: "heart")
+//                        .foregroundColor(.gray)
+//                }
+//                Text("от \(doctor.price) ₽")
+//                    .font(.headline)
+//                if doctor.available {
+//                    Text("Записаться")
+//                        .font(.headline)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.pink)
+//                        .foregroundColor(.white)
+//                        .cornerRadius(8)
+//                } else {
+//                    Text("Нет свободного расписания")
+//                        .font(.headline)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color(.systemGray4))
+//                        .foregroundColor(.white)
+//                        .cornerRadius(8)
+//                }
+//            }
+//            .padding()
+//            .background(Color.white)
+//            .cornerRadius(8)
+//        }
+//    }
+//}
+
+
+
+struct DoctorDetailView: View {
+    let doctor: Doctor?
+    
+    var body: some View {
+        if let doctor = doctor {
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .frame(width: 70, height: 70)
+                        .clipShape(Circle())
+                    VStack(alignment: .leading) {
+                        Text(doctor.name)
+                            .font(.title)
+                            .fontWeight(.bold)
+                        Text("Опыт работы: \(doctor.experience) лет")
+                        Text("Врач высшей категории")
+                        Text("1-й ММИ им. И.М.Сеченова")
+                        Text("Детская клиника \"РебёнОК\"")
+                    }
+                }
+                .padding()
+                VStack(alignment: .leading) {
+                    Text("Стоимость услуг")
+                        .font(.headline)
+                    Text("от \(doctor.price) ₽")
+                        .font(.title)
+                }
+                .padding()
+                Text("Проводит диагностику и лечение терапевтических больных. Осуществляет расшифровку и снятие ЭКГ. Даёт рекомендации по диетологии. Доктор имеет опыт работы в России и зарубежом. Проводит консультации пациентов на английском языке.")
+                    .padding()
+                Spacer()
+                Button(action: {
+                    // Action for booking
+                }) {
+                    if doctor.available {
+                        Text("Записаться")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.pink)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                            .padding()
+                    } else {
+                        Text("Нет свободного расписания")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                            .padding()
+                    }
+                }
+            }
+            .navigationBarTitle("Педиатр", displayMode: .inline)
+        } else {
+            Text("No doctor selected")
+                .navigationBarTitle("Педиатр", displayMode: .inline)
+        }
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
