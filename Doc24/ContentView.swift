@@ -11,6 +11,12 @@ struct ContentView: View {
     
     @State private var searchDoctor = ""
     
+    @State private var selectedSort: SortOption = .none
+    
+    enum SortOption {
+        case none, price, experience, rating
+    }
+    
     var body: some View {
         // первая вкладка таббара
         VStack {
@@ -22,48 +28,68 @@ struct ContentView: View {
                             .font(.system(size: 20))
                             .foregroundColor(.black)
                         TextField("Поиск", text: $searchDoctor)
-                                        .padding(9)
-                                        .padding(.horizontal, 25)
-                                        .background(Color(.white))
-                                        .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
-                                        .overlay(
-                                            HStack {
-                                                Image(systemName: "magnifyingglass")
-                                                    .foregroundColor(.silver)
-                                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                                    .padding(.leading, 8)
-
-                                                if !searchDoctor.isEmpty {
-                                                    Button(action: {
-                                                        self.searchDoctor = ""
-                                                    }) {
-                                                        Image(systemName: "multiply.circle.fill")
-                                                            .foregroundColor(.grayBasic)
-                                                            .padding(.trailing, 8)
-                                                    }
-                                                }
-                                            }
-                                        )
-                                        .cornerRadius(8)
-                                        .padding(.horizontal, 10)
-
-                        HStack {
-                            Button(action: priceSort) {
+                            .padding(9)
+                            .padding(.horizontal, 25)
+                            .background(Color(.white))
+                            .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
+                            .overlay(
+                                HStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundColor(.silver)
+                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                                        .padding(.leading, 8)
+                                    
+                                    if !searchDoctor.isEmpty {
+                                        Button(action: {
+                                            self.searchDoctor = ""
+                                        }) {
+                                            Image(systemName: "multiply.circle.fill")
+                                                .foregroundColor(.grayBasic)
+                                                .padding(.trailing, 8)
+                                        }
+                                    }
+                                }
+                            )
+                            .cornerRadius(8)
+                            .padding(.horizontal, 16)
+                        
+                        HStack(spacing: 0) {
+                            Button(action: {
+                                selectedSort = .price
+                                priceSort()
+                            }) {
                                 Text("По цене ↓")
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 7)
                             }
-                            .padding()
-                            .tint(.pinkAccent)
-                            Button(action: experienceSort) {
+                            .background(selectedSort == .price ? Color.pinkAccent : Color.white)
+                            .foregroundColor(selectedSort == .price ? Color.white : Color.grayDark)
+                            
+                            Button(action: {
+                                selectedSort = .experience
+                                experienceSort()
+                            }) {
                                 Text("По стажу")
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 7)
                             }
-                            .padding()
-                            .tint(.pinkAccent)
-                            Button(action: ratingSort) {
+                            .background(selectedSort == .experience ? Color.pinkAccent : Color.white)
+                            .foregroundColor(selectedSort == .experience ? Color.white : Color.grayDark)
+                            
+                            Button(action: {
+                                selectedSort = .rating
+                                ratingSort()
+                            }) {
                                 Text("По рейтингу")
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 7)
                             }
-                            .padding()
-                            .tint(.pinkAccent)
+                            .background(selectedSort == .rating ? Color.pinkAccent : Color.white)
+                            .foregroundColor(selectedSort == .rating ? Color.white : Color.grayDark)
                         }
+                        .clipShape(RoundedRectangle(cornerRadius: 8.0))
+                        .padding(.horizontal, 16)
+
                     }
                 }
                 .background(Color.white)
