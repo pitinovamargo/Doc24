@@ -72,10 +72,11 @@ struct ContentView: View {
                                     // таблица с врачами
                                     ForEach(filteredDoctors) { doctor in
                                         DoctorCard(doctor: doctor)
+                                            .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
+                                            .padding(.horizontal, 16)
                                     }
                                 }
-//                                .padding(.horizontal, 16)
-//                                .padding(.vertical, 8)
+                                .padding(.top, 16)
                             }
                         }
                     }
@@ -237,7 +238,7 @@ struct DoctorCard: View {
                 Image(doctor.imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 60, height: 60)
+                    .frame(width: 50, height: 50)
                     .clipShape(Circle())
                 
                 VStack(alignment: .leading) {
@@ -254,7 +255,6 @@ struct DoctorCard: View {
                     Text(doctor.price)
                         .font(.system(size: 16))
                         .foregroundColor(.black)
-                        .padding(.vertical, 4)
                         .fontWeight(.semibold)
                 }
                 Spacer()
@@ -263,6 +263,7 @@ struct DoctorCard: View {
                 }) {
                     Image(systemName: doctor.isLiked ? "heart.fill" : "heart")
                         .foregroundColor(doctor.isLiked ? .pinkAccent : .grayDark)
+                        .font(.system(size: 24))
                 }
             }
             .padding(16)
@@ -278,11 +279,11 @@ struct DoctorCard: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
         }
         .background(Color.white)
         .cornerRadius(8)
-        .padding(.horizontal, 16)
     }
 }
 
@@ -290,14 +291,12 @@ struct RatingView: View {
     var rating: Int
     
     var body: some View {
-        HStack {
+        HStack(spacing: 2.4) {
             ForEach(0..<5) { index in
-                Image(systemName: index < rating ? "star.fill" : "star")
+                Image(systemName: "star.fill")
                     .foregroundColor(index < rating ? .pinkAccent : .grayDark)
                     .font(.system(size: 12))
             }
-            .padding(1.2)
-
         }
     }
 }
