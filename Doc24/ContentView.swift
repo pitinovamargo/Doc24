@@ -17,20 +17,21 @@ struct Doctor: Identifiable {
     var imageName: String
 }
 
+enum SortOption {
+    case none, price, experience, rating
+}
+
 struct ContentView: View {
     
     @State private var searchDoctor = ""
-    
-    @State private var selectedSort: SortOption = .none
-    
-    enum SortOption {
-        case none, price, experience, rating
-    }
+    @State private var selectedSort: SortOption = .price
     
     private var doctors: [Doctor] = [
-            Doctor(name: "Семенова Дарья Сергеевна", experience: "Педиатр・стаж 27 лет", price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
-            Doctor(name: "Бардо Кристина Алексеевна", experience: "Педиатр・стаж 10 лет", price: "от 600 ₽", rating: 4, isLiked: true, imageName: "Photo2")
-        ]
+        Doctor(name: "Семенова Дарья Сергеевна", experience: "Педиатр・стаж 27 лет", price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
+        Doctor(name: "Бардо Кристина Алексеевна", experience: "Педиатр・стаж 10 лет", price: "от 600 ₽", rating: 4, isLiked: true, imageName: "Photo2"),
+        Doctor(name: "Семенова Дарья Сергеевна", experience: "Педиатр・стаж 27 лет", price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
+        Doctor(name: "Бардо Кристина Алексеевна", experience: "Педиатр・стаж 10 лет", price: "от 600 ₽", rating: 4, isLiked: true, imageName: "Photo2")
+    ]
     
     private var filteredDoctors: [Doctor] {
         if searchDoctor.isEmpty {
@@ -44,82 +45,28 @@ struct ContentView: View {
         // первая вкладка таббара
         VStack {
             TabView {
-                ZStack {
-                    Color.grayLight.edgesIgnoringSafeArea(.top)
-                    VStack {
-                        Text("Педиатры")
-                            .font(.system(size: 20))
-                            .foregroundColor(.black)
-                        TextField("Поиск", text: $searchDoctor)
-                            .padding(9)
-                            .padding(.horizontal, 25)
-                            .background(Color(.white))
-                            .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
-                            .overlay(
-                                HStack {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundColor(.silver)
-                                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
-                                        .padding(.leading, 8)
-                                    
-                                    if !searchDoctor.isEmpty {
-                                        Button(action: {
-                                            self.searchDoctor = ""
-                                        }) {
-                                            Image(systemName: "multiply.circle.fill")
-                                                .foregroundColor(.grayBasic)
-                                                .padding(.trailing, 8)
-                                        }
+                NavigationView {
+                    ZStack {
+                        Color.grayLight.edgesIgnoringSafeArea(.top)
+                        VStack {
+                            ScrollView {
+                                // поиск
+                                SearchView(searchDoctor: $searchDoctor)
+                                
+                                // кнопки сортировки
+                                SortButtonsView(selectedSort: $selectedSort)
+                                
+                                VStack(spacing: 16) {
+                                    // таблица с врачами
+                                    ForEach(filteredDoctors) { doctor in
+                                        DoctorCard(doctor: doctor)
                                     }
                                 }
-                            )
-                            .cornerRadius(8)
-                            .padding(.horizontal, 16)
-                        
-                        // кнопки сортировки
-                        HStack(spacing: 0) {
-                            Button(action: {
-                                selectedSort = .price
-                                priceSort()
-                            }) {
-                                Text("По цене ↓")
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 7)
+                                .padding(.horizontal, 16)
                             }
-                            .background(selectedSort == .price ? Color.pinkAccent : Color.white)
-                            .foregroundColor(selectedSort == .price ? Color.white : Color.grayDark)
-                            
-                            Button(action: {
-                                selectedSort = .experience
-                                experienceSort()
-                            }) {
-                                Text("По стажу")
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 7)
-                            }
-                            .background(selectedSort == .experience ? Color.pinkAccent : Color.white)
-                            .foregroundColor(selectedSort == .experience ? Color.white : Color.grayDark)
-                            
-                            Button(action: {
-                                selectedSort = .rating
-                                ratingSort()
-                            }) {
-                                Text("По рейтингу")
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 7)
-                            }
-                            .background(selectedSort == .rating ? Color.pinkAccent : Color.white)
-                            .foregroundColor(selectedSort == .rating ? Color.white : Color.grayDark)
                         }
-                        .clipShape(RoundedRectangle(cornerRadius: 8.0))
-                        .padding(.horizontal, 16)
-                        
-                        // таблица с врачами
-                        List(filteredDoctors) { doctor in
-                                    DoctorCard(doctor: doctor)
-                                }
-
                     }
+                    .navigationBarTitle("Педиатры", displayMode: .inline)
                 }
                 .background(Color.white)
                 .accentColor(.pinkAccent)
@@ -168,10 +115,94 @@ struct ContentView: View {
             }
             .frame(maxHeight: .infinity)
         }
-        
-        
     }
     
+    
+    
+    
+    
+}
+
+struct SearchView: View {
+    
+    @Binding var searchDoctor: String
+    
+    var body: some View {
+        
+//        Text("Педиатры")
+//            .font(.system(size: 20))
+//            .foregroundColor(.black)
+        TextField("Поиск", text: $searchDoctor)
+            .padding(9)
+            .padding(.horizontal, 25)
+            .background(Color(.white))
+            .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
+            .overlay(
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.silver)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 8)
+                    
+                    if !searchDoctor.isEmpty {
+                        Button(action: {
+                            self.searchDoctor = ""
+                        }) {
+                            Image(systemName: "multiply.circle.fill")
+                                .foregroundColor(.grayBasic)
+                                .padding(.trailing, 8)
+                        }
+                    }
+                }
+            )
+            .cornerRadius(8)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+    }
+}
+
+struct SortButtonsView: View {
+    
+    @Binding var selectedSort: SortOption
+    
+    var body: some View {
+        HStack(spacing: 0) {
+            Button(action: {
+                selectedSort = .price
+                priceSort()
+            }) {
+                Text("По цене ↓")
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 7)
+            }
+            .background(selectedSort == .price ? Color.pinkAccent : Color.white)
+            .foregroundColor(selectedSort == .price ? Color.white : Color.grayDark)
+            
+            Button(action: {
+                selectedSort = .experience
+                experienceSort()
+            }) {
+                Text("По стажу")
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 7)
+            }
+            .background(selectedSort == .experience ? Color.pinkAccent : Color.white)
+            .foregroundColor(selectedSort == .experience ? Color.white : Color.grayDark)
+            
+            Button(action: {
+                selectedSort = .rating
+                ratingSort()
+            }) {
+                Text("По рейтингу")
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 7)
+            }
+            .background(selectedSort == .rating ? Color.pinkAccent : Color.white)
+            .foregroundColor(selectedSort == .rating ? Color.white : Color.grayDark)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 8.0))
+        .padding(.horizontal, 16)
+    }
     
     private func priceSort() {
         //TODO: priceSort
@@ -182,33 +213,34 @@ struct ContentView: View {
     private func ratingSort() {
         //TODO: ratingSort
     }
-    
-    
 }
 
 struct DoctorCard: View {
     @State var doctor: Doctor
     
     var body: some View {
-        VStack() {
-            HStack() {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .top) {
                 Image(doctor.imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 60, height: 60)
                     .clipShape(Circle())
-
+                
                 VStack(alignment: .leading) {
                     Text(doctor.name)
                         .font(.system(size: 16))
                         .foregroundColor(.black)
                     RatingView(rating: doctor.rating)
+                        .padding(.vertical, 4)
                     Text(doctor.experience)
                         .font(.system(size: 14))
                         .foregroundColor(.grayDark)
+                        .padding(.vertical, 4)
                     Text(doctor.price)
                         .font(.system(size: 16))
                         .foregroundColor(.black)
+                        .padding(.vertical, 4)
                 }
                 Spacer()
                 Button(action: {
@@ -232,7 +264,7 @@ struct DoctorCard: View {
         }
         .background(Color.white)
         .cornerRadius(8)
-        .padding(.vertical, 5)
+        .padding(16)
     }
 }
 
