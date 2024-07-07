@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var searchDoctor = ""
+    
     var body: some View {
         // первая вкладка таббара
         VStack {
@@ -18,6 +20,19 @@ struct ContentView: View {
                     Text("Педиатры")
                         .font(.system(size: 20))
                         .foregroundColor(.black)
+                    TextField("Поиск", text: $searchDoctor)
+                        .padding(.horizontal, 16)
+                        .frame(height: 48)
+                        .background(Color.white)
+                        .foregroundColor(Color.gray)
+                        .clipShape(
+                            UnevenRoundedRectangle(
+                                topLeadingRadius: 0,
+                                bottomLeadingRadius: 20,
+                                bottomTrailingRadius: 20,
+                                topTrailingRadius: 0
+                            )
+                        )
                 }
                 .background(Color.white)
                 .accentColor(.pinkAccent)
