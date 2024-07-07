@@ -27,10 +27,18 @@ struct ContentView: View {
         case none, price, experience, rating
     }
     
-    @State private var doctors: [Doctor] = [
+    private var doctors: [Doctor] = [
             Doctor(name: "Семенова Дарья Сергеевна", experience: "Педиатр・стаж 27 лет", price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1"),
             Doctor(name: "Бардо Кристина Алексеевна", experience: "Педиатр・стаж 10 лет", price: "от 600 ₽", rating: 4, isLiked: true, imageName: "Photo2")
         ]
+    
+    private var filteredDoctors: [Doctor] {
+        if searchDoctor.isEmpty {
+            return doctors
+        } else {
+            return doctors.filter { $0.name.lowercased().contains(searchDoctor.lowercased()) }
+        }
+    }
     
     var body: some View {
         // первая вкладка таббара
@@ -107,7 +115,7 @@ struct ContentView: View {
                         .padding(.horizontal, 16)
                         
                         // таблица с врачами
-                        List(doctors) { doctor in
+                        List(filteredDoctors) { doctor in
                                     DoctorCard(doctor: doctor)
                                 }
 
@@ -182,8 +190,8 @@ struct DoctorCard: View {
     @State var doctor: Doctor
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top) {
+        VStack() {
+            HStack() {
                 Image(doctor.imageName)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -222,7 +230,6 @@ struct DoctorCard: View {
                     .cornerRadius(8)
             }
         }
-        .padding()
         .background(Color.white)
         .cornerRadius(8)
         .padding(.vertical, 5)
