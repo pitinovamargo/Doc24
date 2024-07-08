@@ -6,10 +6,42 @@
 //
 
 import SwiftUI
+import Kingfisher
 
 struct DoctorDetailView: View {
     let doctor: Doctor?
     @Environment(\.presentationMode) var presentationMode
+    
+    var category: String {
+            guard let doctor = doctor else { return "Врач" }
+            if doctor.categoryLabel != "нет" {
+                let result: String
+                switch doctor.categoryLabel.lowercased() {
+                case "высшая":
+                    result = "высшей"
+                case "вторая":
+                    result = "второй"
+                default:
+                    result = "первой"
+                }
+                return "Врач \(result) категории"
+            } else {
+                return "Врач"
+            }
+        }
+    
+    var organization: String {
+            guard let doctor = doctor else { return "Детская клиника \"РебёнОК\"" }
+            return doctor.workExpirience
+            .sorted { $0.id > $1.id }
+                .first?
+                .organization ?? "Детская клиника \"РебёнОК\""
+        }
+    
+    var lowestPrice: Int {
+            guard let doctor = doctor else { return 0 }
+            return [doctor.hospitalPrice, doctor.homePrice, doctor.textChatPrice, doctor.videoChatPrice].min() ?? 0
+        }
     
     var body: some View {
         if let doctor = doctor {
@@ -17,13 +49,20 @@ struct DoctorDetailView: View {
                 Color.grayLight.edgesIgnoringSafeArea(.top)
                 VStack(alignment: .leading) {
                     HStack(alignment: .top) {
-                        Image(doctor.imageName)
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                            .padding(.horizontal, 16)
-                            .padding(.top, 16)
-                        Text(doctor.name)
+                        if let avatarUrl = URL(string: doctor.avatar ?? "") {
+                            KFImage(avatarUrl)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                                .padding(.horizontal, 16)
+                                .padding(.top, 16)
+                        } else {
+                            Circle()
+                                .fill(Color.gray)
+                                .frame(width: 50, height: 50)
+                        }
+                        Text("\(doctor.lastName)\n\(doctor.firstName) \(doctor.patronymic)")
                             .font(.system(size: 16))
                             .foregroundColor(.black)
                             .fontWeight(.semibold)
@@ -36,7 +75,7 @@ struct DoctorDetailView: View {
                             Image("Timeout")
                                 .frame(width: 24,height: 24)
                                 .foregroundColor(.grayDark)
-                            Text("Опыт работы: \(doctor.experience) лет")
+                            Text("Опыт работы: \(doctor.seniority) лет")
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
@@ -45,7 +84,7 @@ struct DoctorDetailView: View {
                             Image("FirstAidKit")
                                 .frame(width: 24,height: 24)
                                 .foregroundColor(.grayDark)
-                            Text("Врач высшей категории")
+                            Text(category)
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
@@ -54,7 +93,7 @@ struct DoctorDetailView: View {
                             Image("Graduation")
                                 .frame(width: 24,height: 24)
                                 .foregroundColor(.grayDark)
-                            Text("1-й ММИ им. И.М.Сеченова")
+                            Text(doctor.educationTypeLabel?.name ?? "1-й ММИ им. И.М.Сеченова")
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
@@ -63,7 +102,7 @@ struct DoctorDetailView: View {
                             Image("Position")
                                 .frame(width: 24,height: 24)
                                 .foregroundColor(.grayDark)
-                            Text("Детская клиника \"РебёнОК\"")
+                            Text(organization)
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
@@ -78,7 +117,7 @@ struct DoctorDetailView: View {
                                     .foregroundColor(.black)
                                     .fontWeight(.semibold)
                                 Spacer()
-                                Text("от \(doctor.price) ₽")
+                                Text("от \(lowestPrice) ₽")
                                     .font(.system(size: 16))
                                     .foregroundColor(.black)
                                     .fontWeight(.semibold)
@@ -92,7 +131,7 @@ struct DoctorDetailView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                     }
-
+                    
                     Text("Проводит диагностику и лечение терапевтических больных. Осуществляет расшифровку и снятие ЭКГ. Даёт рекомендации по диетологии. Доктор имеет опыт работы в России и зарубежом. Проводит консультации пациентов на английском языке.")
                         .padding()
                         .font(.system(size: 14))
@@ -101,7 +140,7 @@ struct DoctorDetailView: View {
                     Button(action: {
                         // действие для брони места
                     }) {
-                        if doctor.available {
+                        if !doctor.freeReceptionTime.isEmpty {
                             Text("Записаться")
                                 .font(.system(size: 16))
                                 .fontWeight(.semibold)

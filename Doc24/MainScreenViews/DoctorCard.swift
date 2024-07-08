@@ -105,7 +105,7 @@ struct DoctorCard: View {
                         }
                         
                         VStack(alignment: .leading) {
-                            Text("\(doctor.lastName)/n\(doctor.firstName) \(doctor.patronymic)")
+                            Text("\(doctor.lastName)\n\(doctor.firstName) \(doctor.patronymic)")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)

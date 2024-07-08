@@ -19,28 +19,22 @@ struct ContentView: View {
     @State private var selectedSort: SortOption = .price
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedTab: Tab = .main
+    @State private var doctors: [Doctor] = []
     
-    
-    private var doctors: [Doctor] = [
-        Doctor(name: "Семенова\nДарья Сергеевна", experience: 27, price: 600, rating: 5, isLiked: false, imageName: "Photo1", available: true),
-        Doctor(name: "Бардо\nКристина Алексеевна", experience: 10, price: 700, rating: 4, isLiked: true, imageName: "Photo2", available: false),
-        Doctor(name: "Осташков\nКирилл Вячеславович", experience: 9, price: 400, rating: 5, isLiked: false, imageName: "Photo3", available: true),
-        Doctor(name: "Бардо\nКристина Алексеевна", experience: 2, price: 800, rating: 1, isLiked: true, imageName: "Photo2", available: true)
-    ]
-    
+    private var doctorService: DoctorService = DoctorService()
     private var filteredDoctors: [Doctor] {
         var result = doctors
         if !searchDoctor.isEmpty {
-            result = doctors.filter { $0.name.lowercased().contains(searchDoctor.lowercased()) }
+            result = doctors.filter { $0.lastName.lowercased().contains(searchDoctor.lowercased()) }
         }
         
         switch selectedSort {
         case .price:
-            result = result.sorted { $0.price < $1.price }
+            result = result.sorted { $0.hospitalPrice < $1.hospitalPrice }
         case .experience:
-            result = result.sorted { $0.experience > $1.experience }
+            result = result.sorted { $0.seniority > $1.seniority }
         case .rating:
-            result = result.sorted { $0.rating > $1.rating }
+            result = result.sorted { $0.ratingsRating > $1.ratingsRating }
         }
         
         return result
@@ -62,6 +56,9 @@ struct ContentView: View {
                                 SortButtonsView(selectedSort: $selectedSort)
                                 
                                 // карточки с врачами
+                                if doctors.isEmpty {
+                                    Text("Loading...") // добавить ProgressHud
+                                }
                                 VStack(spacing: 16) {
                                     ForEach(filteredDoctors) { doctor in
                                         DoctorCard(doctor: doctor)
@@ -71,6 +68,11 @@ struct ContentView: View {
                                 }
                                 .padding(.top, 16)
                             }
+                        }
+                    }
+                    .onAppear {
+                        doctorService.fetchDoctors { fetchedDoctors in
+                            doctors = fetchedDoctors
                         }
                     }
                     .navigationBarTitle("Педиатры", displayMode: .inline)
