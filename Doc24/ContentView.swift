@@ -11,6 +11,7 @@ struct ContentView: View {
     
     @State private var searchDoctor = ""
     @State private var selectedSort: SortOption = .price
+    @Environment(\.presentationMode) var presentationMode
     
     private var doctors: [Doctor] = [
         Doctor(name: "Семенова\nДарья Сергеевна", experience: 27, price: 600, rating: 5, isLiked: false, imageName: "Photo1", available: true),
@@ -21,7 +22,6 @@ struct ContentView: View {
     
     private var filteredDoctors: [Doctor] {
         var result = doctors
-        
         if !searchDoctor.isEmpty {
             result = doctors.filter { $0.name.lowercased().contains(searchDoctor.lowercased()) }
         }
@@ -66,6 +66,21 @@ struct ContentView: View {
                         }
                     }
                     .navigationBarTitle("Педиатры", displayMode: .inline)
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            Text("Педиатры")
+                                .font(.system(size: 20))
+                        }
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }) {
+                                Image(systemName: "chevron.left")
+                                    .foregroundColor(.grayDark)
+                            }
+                        }
+                    }
                 }
                 .background(Color.white)
                 .accentColor(.pinkAccent)

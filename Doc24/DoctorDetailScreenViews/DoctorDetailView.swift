@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DoctorDetailView: View {
     let doctor: Doctor?
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         if let doctor = doctor {
@@ -124,7 +125,21 @@ struct DoctorDetailView: View {
                 }
             }
             .navigationBarTitle("Педиатр", displayMode: .inline)
-        } else {
+            .navigationBarBackButtonHidden(true)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Педиатр")
+                        .font(.system(size: 20))
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.grayDark)
+                    }
+                }
+            }        } else {
             Text("No doctor selected")
                 .navigationBarTitle("Педиатр", displayMode: .inline)
         }
