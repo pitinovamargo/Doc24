@@ -89,6 +89,7 @@ struct DoctorDetailView: View {
                     .background(Color.white)
                     .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal, 16)
+                    
                     Text("Проводит диагностику и лечение терапевтических больных. Осуществляет расшифровку и снятие ЭКГ. Даёт рекомендации по диетологии. Доктор имеет опыт работы в России и зарубежом. Проводит консультации пациентов на английском языке.")
                         .padding()
                         .font(.system(size: 14))

@@ -11,6 +11,7 @@
 		64186D842C3C09B40077D770 /* SortButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64186D832C3C09B40077D770 /* SortButtonsView.swift */; };
 		64186D862C3C0A160077D770 /* DoctorCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64186D852C3C0A160077D770 /* DoctorCard.swift */; };
 		64186D892C3C0AC30077D770 /* DoctorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64186D882C3C0AC30077D770 /* DoctorDetailView.swift */; };
+		64186D8C2C3C1FAE0077D770 /* PriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64186D8B2C3C1FAE0077D770 /* PriceView.swift */; };
 		6461BBDF2C382FCB0095E7BD /* Doc24App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6461BBDE2C382FCB0095E7BD /* Doc24App.swift */; };
 		6461BBE12C382FCB0095E7BD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6461BBE02C382FCB0095E7BD /* ContentView.swift */; };
 		6461BBE32C382FCE0095E7BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6461BBE22C382FCE0095E7BD /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		64186D832C3C09B40077D770 /* SortButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortButtonsView.swift; sourceTree = "<group>"; };
 		64186D852C3C0A160077D770 /* DoctorCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorCard.swift; sourceTree = "<group>"; };
 		64186D882C3C0AC30077D770 /* DoctorDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorDetailView.swift; sourceTree = "<group>"; };
+		64186D8B2C3C1FAE0077D770 /* PriceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceView.swift; sourceTree = "<group>"; };
 		6461BBDB2C382FCB0095E7BD /* Doc24.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doc24.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6461BBDE2C382FCB0095E7BD /* Doc24App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Doc24App.swift; sourceTree = "<group>"; };
 		6461BBE02C382FCB0095E7BD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,14 @@
 			path = DoctorDetailScreenViews;
 			sourceTree = "<group>";
 		};
+		64186D8A2C3C1F7E0077D770 /* PriceScreenViews */ = {
+			isa = PBXGroup;
+			children = (
+				64186D8B2C3C1FAE0077D770 /* PriceView.swift */,
+			);
+			path = PriceScreenViews;
+			sourceTree = "<group>";
+		};
 		6461BBD22C382FCB0095E7BD = {
 			isa = PBXGroup;
 			children = (
@@ -84,6 +94,7 @@
 				6461BBE02C382FCB0095E7BD /* ContentView.swift */,
 				64186D802C3C09300077D770 /* MainScreenViews */,
 				64186D872C3C0A980077D770 /* DoctorDetailScreenViews */,
+				64186D8A2C3C1F7E0077D770 /* PriceScreenViews */,
 				6461BBEE2C38746E0095E7BD /* Launch Screen.storyboard */,
 				6461BBE22C382FCE0095E7BD /* Assets.xcassets */,
 				6461BBE72C382FCE0095E7BD /* Doc24.entitlements */,
@@ -172,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				64186D892C3C0AC30077D770 /* DoctorDetailView.swift in Sources */,
+				64186D8C2C3C1FAE0077D770 /* PriceView.swift in Sources */,
 				6461BBE12C382FCB0095E7BD /* ContentView.swift in Sources */,
 				64186D822C3C09480077D770 /* SearchView.swift in Sources */,
 				64186D842C3C09B40077D770 /* SortButtonsView.swift in Sources */,
