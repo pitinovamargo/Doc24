@@ -53,7 +53,7 @@ struct ContentView: View {
                                 // кнопки сортировки
                                 SortButtonsView(selectedSort: $selectedSort)
                                 
-                                // таблица с врачами
+                                // карточки с врачами
                                 VStack(spacing: 16) {
                                     ForEach(filteredDoctors) { doctor in
                                         DoctorCard(doctor: doctor)

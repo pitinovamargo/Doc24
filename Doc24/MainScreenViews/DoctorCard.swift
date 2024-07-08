@@ -65,7 +65,7 @@ struct DoctorCard: View {
             .padding(16)
             
             Button(action: {
-                // Действие при нажатии на кнопку "Записаться"
+                // действие при нажатии на кнопку "Записаться"
             }) {
                 if doctor.available {
                     Text("Записаться")
@@ -108,62 +108,3 @@ struct RatingView: View {
         }
     }
 }
-
-
-//struct DoctorCardView: View {
-//    let doctor: Doctor
-//    var action: (Doctor) -> Void
-//
-//    var body: some View {
-//        Button(action: {
-//            action(doctor)
-//        }) {
-//            VStack(alignment: .leading, spacing: 8) {
-//                HStack {
-//                    Image(systemName: "person.circle.fill")
-//                        .resizable()
-//                        .frame(width: 50, height: 50)
-//                        .clipShape(Circle())
-//                    VStack(alignment: .leading) {
-//                        Text(doctor.name)
-//                            .font(.headline)
-//                        HStack {
-//                            ForEach(0..<doctor.rating, id: \.self) { _ in
-//                                Image(systemName: "star.fill")
-//                                    .foregroundColor(.pink)
-//                            }
-//                        }
-//                        Text("Педиатр - стаж \(doctor.experience) лет")
-//                            .font(.subheadline)
-//                            .foregroundColor(.gray)
-//                    }
-//                    Spacer()
-//                    Image(systemName: "heart")
-//                        .foregroundColor(.gray)
-//                }
-//                Text("от \(doctor.price) ₽")
-//                    .font(.headline)
-//                if doctor.available {
-//                    Text("Записаться")
-//                        .font(.headline)
-//                        .padding()
-//                        .frame(maxWidth: .infinity)
-//                        .background(Color.pink)
-//                        .foregroundColor(.white)
-//                        .cornerRadius(8)
-//                } else {
-//                    Text("Нет свободного расписания")
-//                        .font(.headline)
-//                        .padding()
-//                        .frame(maxWidth: .infinity)
-//                        .background(Color(.systemGray4))
-//                        .foregroundColor(.white)
-//                        .cornerRadius(8)
-//                }
-//            }
-//            .padding()
-//            .background(Color.white)
-//            .cornerRadius(8)
-//        }
-//    }
-//}

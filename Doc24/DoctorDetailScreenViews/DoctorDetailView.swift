@@ -70,28 +70,29 @@ struct DoctorDetailView: View {
                         }
                     }
                     .padding()
-                    Button(action: {
-                        
-                    }) {
-                        HStack() {
-                            Text("Стоимость услуг")
-                                .font(.system(size: 16))
-                                .foregroundColor(.black)
-                                .fontWeight(.semibold)
-                            Spacer()
-                            Text("от \(doctor.price) ₽")
-                                .font(.system(size: 16))
-                                .foregroundColor(.black)
-                                .fontWeight(.semibold)
+                    VStack {
+                        NavigationLink(destination: PriceView(doctor: doctor)) {
+                            HStack {
+                                Text("Стоимость услуг")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.black)
+                                    .fontWeight(.semibold)
+                                Spacer()
+                                Text("от \(doctor.price) ₽")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.black)
+                                    .fontWeight(.semibold)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 18)
+                            .background(Color.white)
+                            .cornerRadius(8)
+                            .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
+                            .padding(.horizontal, 16)
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 18)
+                        .buttonStyle(PlainButtonStyle())
                     }
-                    .background(Color.white)
-                    .cornerRadius(8)
-                    .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
-                    .padding(.horizontal, 16)
-                    
+
                     Text("Проводит диагностику и лечение терапевтических больных. Осуществляет расшифровку и снятие ЭКГ. Даёт рекомендации по диетологии. Доктор имеет опыт работы в России и зарубежом. Проводит консультации пациентов на английском языке.")
                         .padding()
                         .font(.system(size: 14))
@@ -140,8 +141,8 @@ struct DoctorDetailView: View {
                     }
                 }
             }        } else {
-            Text("No doctor selected")
-                .navigationBarTitle("Педиатр", displayMode: .inline)
-        }
+                Text("No doctor selected")
+                    .navigationBarTitle("Педиатр", displayMode: .inline)
+            }
     }
 }
