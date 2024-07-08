@@ -19,7 +19,6 @@ struct SortButtonsView: View {
         HStack(spacing: 0) {
             Button(action: {
                 selectedSort = .price
-                priceSort()
             }) {
                 Text("По цене")
                     .frame(maxWidth: .infinity)
@@ -30,7 +29,6 @@ struct SortButtonsView: View {
             
             Button(action: {
                 selectedSort = .experience
-                experienceSort()
             }) {
                 Text("По стажу")
                     .frame(maxWidth: .infinity)
@@ -41,7 +39,6 @@ struct SortButtonsView: View {
             
             Button(action: {
                 selectedSort = .rating
-                ratingSort()
             }) {
                 Text("По рейтингу")
                     .frame(maxWidth: .infinity)
@@ -52,15 +49,5 @@ struct SortButtonsView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 8.0))
         .padding(.horizontal, 16)
-    }
-    
-    private func priceSort() {
-        //TODO: priceSort
-    }
-    private func experienceSort() {
-        //TODO: experienceSort
-    }
-    private func ratingSort() {
-        //TODO: ratingSort
     }
 }

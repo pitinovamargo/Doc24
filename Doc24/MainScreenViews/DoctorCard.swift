@@ -38,6 +38,7 @@ struct DoctorCard: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
+                                .lineSpacing(6)
                                 .multilineTextAlignment(.leading)
                             RatingView(rating: doctor.rating)
                                 .padding(.vertical, 4)
@@ -66,13 +67,25 @@ struct DoctorCard: View {
             Button(action: {
                 // Действие при нажатии на кнопку "Записаться"
             }) {
-                Text("Записаться")
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 15)
-                    .fontWeight(.semibold)
-                    .background(Color.pinkAccent)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+                if doctor.available {
+                    Text("Записаться")
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.pinkAccent)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                } else {
+                    Text("Нет свободного расписания")
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.grayBasic)
+                        .foregroundColor(.black)
+                        .cornerRadius(8)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 16)
