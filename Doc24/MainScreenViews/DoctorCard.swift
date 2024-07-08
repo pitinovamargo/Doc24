@@ -11,7 +11,7 @@ struct Doctor: Identifiable {
     var id = UUID()
     var name: String
     var experience: Int
-    var price: String
+    var price: Int
     var rating: Int
     var isLiked: Bool
     var imageName: String
@@ -46,7 +46,7 @@ struct DoctorCard: View {
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
-                            Text(doctor.price)
+                            Text("от \(doctor.price) ₽")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)

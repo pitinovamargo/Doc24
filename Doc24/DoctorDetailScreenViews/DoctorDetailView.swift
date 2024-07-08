@@ -78,7 +78,7 @@ struct DoctorDetailView: View {
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
                             Spacer()
-                            Text(doctor.price)
+                            Text("от \(doctor.price) ₽")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
@@ -87,6 +87,7 @@ struct DoctorDetailView: View {
                         .padding(.vertical, 18)
                     }
                     .background(Color.white)
+                    .cornerRadius(8)
                     .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
                     .padding(.horizontal, 16)
                     

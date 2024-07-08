@@ -13,10 +13,10 @@ struct ContentView: View {
     @State private var selectedSort: SortOption = .price
     
     private var doctors: [Doctor] = [
-        Doctor(name: "Семенова\nДарья Сергеевна", experience: 27, price: "от 600 ₽", rating: 5, isLiked: false, imageName: "Photo1", available: true),
-        Doctor(name: "Бардо\nКристина Алексеевна", experience: 10, price: "от 700 ₽", rating: 4, isLiked: true, imageName: "Photo2", available: false),
-        Doctor(name: "Осташков\nКирилл Вячеславович", experience: 9, price: "от 400 ₽", rating: 5, isLiked: false, imageName: "Photo3", available: true),
-        Doctor(name: "Бардо\nКристина Алексеевна", experience: 2, price: "от 800 ₽", rating: 1, isLiked: true, imageName: "Photo2", available: true)
+        Doctor(name: "Семенова\nДарья Сергеевна", experience: 27, price: 600, rating: 5, isLiked: false, imageName: "Photo1", available: true),
+        Doctor(name: "Бардо\nКристина Алексеевна", experience: 10, price: 700, rating: 4, isLiked: true, imageName: "Photo2", available: false),
+        Doctor(name: "Осташков\nКирилл Вячеславович", experience: 9, price: 400, rating: 5, isLiked: false, imageName: "Photo3", available: true),
+        Doctor(name: "Бардо\nКристина Алексеевна", experience: 2, price: 800, rating: 1, isLiked: true, imageName: "Photo2", available: true)
     ]
     
     private var filteredDoctors: [Doctor] {

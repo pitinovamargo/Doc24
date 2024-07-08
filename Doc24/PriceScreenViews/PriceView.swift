@@ -25,7 +25,7 @@ struct PriceView: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                             Spacer()
-                            Text(doctor.price) // пофиксить прайс: убрать "от"
+                            Text("\(doctor.price) ₽")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
@@ -47,7 +47,7 @@ struct PriceView: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                             Spacer()
-                            Text(doctor.price) // пофиксить прайс: убрать "от"
+                            Text("\(doctor.price) ₽")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
@@ -69,7 +69,7 @@ struct PriceView: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                             Spacer()
-                            Text(doctor.price) // пофиксить прайс: убрать "от"
+                            Text("\(doctor.price) ₽")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
