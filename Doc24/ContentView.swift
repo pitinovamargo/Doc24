@@ -7,11 +7,19 @@
 
 import SwiftUI
 
+
+enum Tab {
+    case main, appointments, chat, profile
+}
+
+
 struct ContentView: View {
     
     @State private var searchDoctor = ""
     @State private var selectedSort: SortOption = .price
     @Environment(\.presentationMode) var presentationMode
+    @State private var selectedTab: Tab = .main
+    
     
     private var doctors: [Doctor] = [
         Doctor(name: "Семенова\nДарья Сергеевна", experience: 27, price: 600, rating: 5, isLiked: false, imageName: "Photo1", available: true),
@@ -83,10 +91,14 @@ struct ContentView: View {
                     }
                 }
                 .background(Color.white)
-                .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Главная", image: "House")
+                    VStack {
+                        Image("House")
+                            .renderingMode(.template)
+                        Text("Главная")
+                    }
                 }
+                .tag(Tab.main)
                 
                 // вторая вкладка таббара "Приемы"
                 ZStack {
@@ -98,8 +110,13 @@ struct ContentView: View {
                 .background(Color.white)
                 .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Приёмы", image: "Calendar")
+                    VStack {
+                        Image("Calendar")
+                            .renderingMode(.template)
+                        Text("Приёмы")
+                    }
                 }
+                .tag(Tab.appointments)
                 
                 // третья вкладка таббара "Чат"
                 ZStack {
@@ -111,7 +128,11 @@ struct ContentView: View {
                 .background(Color.white)
                 .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Чат", image: "Chat")
+                    VStack {
+                        Image("Chat")
+                            .renderingMode(.template)
+                        Text("Чат")
+                    }
                 }
                 
                 // четвертая вкладка таббара "Профиль"
@@ -124,10 +145,15 @@ struct ContentView: View {
                 .background(Color.white)
                 .accentColor(.pinkAccent)
                 .tabItem {
-                    Label("Профиль", image: "Profile")
+                    VStack {
+                        Image("Profile")
+                            .renderingMode(.template)
+                        Text("Профиль")
+                    }
                 }
             }
             .frame(maxHeight: .infinity)
+            .accentColor(.pinkAccent)
         }
     }
 }
