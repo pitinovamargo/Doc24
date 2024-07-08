@@ -6,20 +6,85 @@
 //
 
 import SwiftUI
+import Kingfisher
 
-struct Doctor: Identifiable {
-    var id = UUID()
-    var name: String
-    var experience: Int
-    var price: Int
-    var rating: Int
-    var isLiked: Bool
-    var imageName: String
-    var available: Bool
+struct Doctor: Codable, Identifiable {
+    let id: String
+    let firstName: String
+    let patronymic: String
+    let lastName: String
+    let specialization: [Specialization]
+    let ratingsRating: Double
+    let seniority: Int
+    let textChatPrice: Int
+    let videoChatPrice: Int
+    let homePrice: Int
+    let hospitalPrice: Int
+    let avatar: String?
+    let educationTypeLabel: EducationLabel?
+    let categoryLabel: String
+    let workExpirience: [WorkExpirience]
+    let freeReceptionTime: [FreeReceptionTime]
+    var isFavorite: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case firstName = "first_name"
+        case patronymic, lastName = "last_name"
+        case specialization, ratingsRating = "ratings_rating"
+        case seniority, textChatPrice = "text_chat_price"
+        case videoChatPrice = "video_chat_price"
+        case homePrice = "home_price"
+        case hospitalPrice = "hospital_price"
+        case avatar
+        case educationTypeLabel = "education_type_label"
+        case categoryLabel = "category_label"
+        case workExpirience = "work_expirience"
+        case freeReceptionTime = "free_reception_time"
+        case isFavorite = "is_favorite"
+    }
+}
+
+struct Specialization: Codable {
+    let id: Int
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name
+    }
+}
+
+struct EducationLabel: Codable {
+    let id: Int
+    let name: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, name
+    }
+}
+
+struct WorkExpirience: Codable {
+    let id: Int
+    let organization: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, organization
+    }
+}
+
+struct FreeReceptionTime: Codable {
+    let time: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case time
+    }
 }
 
 struct DoctorCard: View {
     @State var doctor: Doctor
+    var lowestPrice: Int {
+        [doctor.hospitalPrice, doctor.homePrice, doctor.textChatPrice, doctor.videoChatPrice].min() ?? 0
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -27,26 +92,32 @@ struct DoctorCard: View {
                 NavigationLink(destination: DoctorDetailView(doctor: doctor)) {
                     HStack(alignment: .top) {
                         
-                        Image(doctor.imageName)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
+                        if let avatarUrl = URL(string: doctor.avatar ?? "") {
+                            KFImage(avatarUrl)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
+                                .clipShape(Circle())
+                        } else {
+                            Circle()
+                                .fill(Color.gray)
+                                .frame(width: 50, height: 50)
+                        }
                         
                         VStack(alignment: .leading) {
-                            Text(doctor.name)
+                            Text("\(doctor.lastName)/n\(doctor.firstName) \(doctor.patronymic)")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
                                 .lineSpacing(6)
                                 .multilineTextAlignment(.leading)
-                            RatingView(rating: doctor.rating)
+                            RatingView(rating: Int(doctor.ratingsRating))
                                 .padding(.vertical, 4)
-                            Text("Педиатр・стаж \(doctor.experience) лет")
+                            Text("\(doctor.specialization.first?.name ?? "Педиатр") ・ стаж \(doctor.seniority) лет")
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
-                            Text("от \(doctor.price) ₽")
+                            Text("от \(lowestPrice) ₽")
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
@@ -55,10 +126,10 @@ struct DoctorCard: View {
                 }
                 Spacer()
                 Button(action: {
-                    doctor.isLiked.toggle()
+                    doctor.isFavorite.toggle()
                 }) {
-                    Image(systemName: doctor.isLiked ? "heart.fill" : "heart")
-                        .foregroundColor(doctor.isLiked ? .pinkAccent : .grayDark)
+                    Image(systemName: doctor.isFavorite ? "heart.fill" : "heart")
+                        .foregroundColor(doctor.isFavorite ? .pinkAccent : .grayDark)
                         .font(.system(size: 24))
                 }
             }
@@ -67,7 +138,7 @@ struct DoctorCard: View {
             Button(action: {
                 // действие при нажатии на кнопку "Записаться"
             }) {
-                if doctor.available {
+                if !doctor.freeReceptionTime.isEmpty {
                     Text("Записаться")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
