@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct SearchView: View {
-    
-    @Binding var searchDoctor: String
+    @ObservedObject var doctorViewModel: DoctorViewModel
     
     var body: some View {
 
-        TextField("Поиск", text: $searchDoctor)
+        TextField("Поиск", text: $doctorViewModel.searchDoctor)
             .padding(9)
             .padding(.horizontal, 25)
             .background(Color(.white))
@@ -25,9 +24,9 @@ struct SearchView: View {
                         .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                         .padding(.leading, 8)
                     
-                    if !searchDoctor.isEmpty {
+                    if !doctorViewModel.searchDoctor.isEmpty {
                         Button(action: {
-                            self.searchDoctor = ""
+                            doctorViewModel.searchDoctor = ""
                         }) {
                             Image(systemName: "multiply.circle.fill")
                                 .foregroundColor(.grayBasic)

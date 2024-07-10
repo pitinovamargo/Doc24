@@ -7,38 +7,15 @@
 
 import SwiftUI
 
-
 enum Tab {
     case main, appointments, chat, profile
 }
 
-
 struct ContentView: View {
-    
-    @State private var searchDoctor = ""
-    @State private var selectedSort: SortOption = .price
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedTab: Tab = .main
-    @State private var doctors: [Doctor] = []
-    
     private var doctorService: DoctorService = DoctorService()
-    private var filteredDoctors: [Doctor] {
-        var result = doctors
-        if !searchDoctor.isEmpty {
-            result = doctors.filter { $0.lastName.lowercased().contains(searchDoctor.lowercased()) }
-        }
-        
-        switch selectedSort {
-        case .price:
-            result = result.sorted { $0.hospitalPrice < $1.hospitalPrice }
-        case .experience:
-            result = result.sorted { $0.seniority > $1.seniority }
-        case .rating:
-            result = result.sorted { $0.ratingsRating > $1.ratingsRating }
-        }
-        
-        return result
-    }
+    @StateObject private var doctorViewModel = DoctorViewModel()
     
     var body: some View {
         // первая вкладка таббара "Главная"
@@ -50,17 +27,17 @@ struct ContentView: View {
                         VStack {
                             ScrollView {
                                 // поисковая строка
-                                SearchView(searchDoctor: $searchDoctor)
+                                SearchView(doctorViewModel: doctorViewModel)
                                 
                                 // кнопки сортировки
-                                SortButtonsView(selectedSort: $selectedSort)
-                                
+                                SortButtonsView(doctorViewModel: doctorViewModel)
+
                                 // карточки с врачами
-                                if doctors.isEmpty {
+                                if doctorViewModel.doctors.isEmpty {
                                     Text("Loading...") // добавить ProgressHud
                                 }
                                 VStack(spacing: 16) {
-                                    ForEach(filteredDoctors) { doctor in
+                                    ForEach(doctorViewModel.doctors) { doctor in
                                         DoctorCard(doctor: doctor)
                                             .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
                                             .padding(.horizontal, 16)
@@ -72,7 +49,7 @@ struct ContentView: View {
                     }
                     .onAppear {
                         doctorService.fetchDoctors { fetchedDoctors in
-                            doctors = fetchedDoctors
+                            doctorViewModel.doctors = fetchedDoctors
                         }
                     }
                     .navigationBarTitle("Педиатры", displayMode: .inline)
