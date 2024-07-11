@@ -12,8 +12,7 @@ enum SortOption {
 }
 
 struct SortButtonsView: View {
-    
-    let doctorViewModel: DoctorViewModel
+    @ObservedObject var doctorViewModel: DoctorListViewModel
     
     var body: some View {
         HStack(spacing: 0) {

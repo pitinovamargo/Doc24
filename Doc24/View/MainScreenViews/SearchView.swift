@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct SearchView: View {
-    @ObservedObject var doctorViewModel: DoctorViewModel
+    @ObservedObject var doctorViewModel: DoctorListViewModel
     
     var body: some View {
-
         TextField("Поиск", text: $doctorViewModel.searchDoctor)
             .padding(9)
             .padding(.horizontal, 25)

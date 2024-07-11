@@ -41,7 +41,7 @@ final class DoctorService {
 
 struct DoctorsResponse: Codable {
     let record: DoctorRecord
-
+    
     struct DoctorRecord: Codable {
         let data: Data
         

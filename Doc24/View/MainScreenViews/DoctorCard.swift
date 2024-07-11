@@ -9,44 +9,43 @@ import SwiftUI
 import Kingfisher
 
 struct DoctorCard: View {
-    @State var doctor: Doctor
-    var lowestPrice: Int {
-        [doctor.hospitalPrice, doctor.homePrice, doctor.textChatPrice, doctor.videoChatPrice].min() ?? 0
-    }
+    @ObservedObject var viewModel: DoctorCardViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top) {
-                NavigationLink(destination: DoctorDetailView(doctor: doctor)) {
+                NavigationLink(destination: DoctorDetailView(viewModel: self.viewModel)) {
                     HStack(alignment: .top) {
-                        
                         // использую Kingfisher для загрузки изображений
-                        if let avatarUrl = URL(string: doctor.avatar ?? "") {
+                        if let avatarUrl = URL(string: viewModel.avatar()) {
                             KFImage(avatarUrl)
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 50, height: 50)
                                 .clipShape(Circle())
                         } else {
-                            Circle()
-                                .fill(Color.gray)
+                            Image(systemName: "person.fill")
+                                .resizable()
+                                .scaledToFill()
                                 .frame(width: 50, height: 50)
+                                .background(Circle().fill(Color.grayBackground))
+                                .foregroundColor(.grayLight)
+                                .clipShape(Circle())
                         }
-                        
                         VStack(alignment: .leading) {
-                            Text("\(doctor.lastName)\n\(doctor.firstName) \(doctor.patronymic)")
+                            Text(viewModel.fullName())
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
                                 .lineSpacing(6)
                                 .multilineTextAlignment(.leading)
-                            RatingView(rating: Int(doctor.ratingsRating))
+                            RatingView(rating: viewModel.rating())
                                 .padding(.vertical, 4)
-                            Text("\(doctor.specialization.first?.name ?? "Педиатр") ・ стаж \(doctor.seniority) лет")
+                            Text(viewModel.specialization())
                                 .font(.system(size: 14))
                                 .foregroundColor(.grayDark)
                                 .padding(.vertical, 4)
-                            Text("от \(lowestPrice) ₽")
+                            Text(viewModel.price())
                                 .font(.system(size: 16))
                                 .foregroundColor(.black)
                                 .fontWeight(.semibold)
@@ -55,19 +54,19 @@ struct DoctorCard: View {
                 }
                 Spacer()
                 Button(action: {
-                    doctor.isFavorite.toggle()
+                    viewModel.toggleFavorite()
                 }) {
-                    Image(systemName: doctor.isFavorite ? "heart.fill" : "heart")
-                        .foregroundColor(doctor.isFavorite ? .pinkAccent : .grayDark)
+                    Image(systemName: viewModel.isFavorite() ? "heart.fill" : "heart")
+                        .foregroundColor(viewModel.isFavorite() ? .pinkAccent : .grayDark)
                         .font(.system(size: 24))
                 }
             }
             .padding(16)
             
             Button(action: {
-                // действие при нажатии на кнопку "Записаться"
+                // действие по нажатию на кнопку "Записаться"
             }) {
-                if !doctor.freeReceptionTime.isEmpty {
+                if viewModel.hasFreeTime() {
                     Text("Записаться")
                         .font(.system(size: 16))
                         .fontWeight(.semibold)
@@ -92,19 +91,5 @@ struct DoctorCard: View {
         }
         .background(Color.white)
         .cornerRadius(8)
-    }
-}
-
-struct RatingView: View {
-    var rating: Int
-    
-    var body: some View {
-        HStack(spacing: 2.4) {
-            ForEach(0..<5) { index in
-                Image(systemName: "star.fill")
-                    .foregroundColor(index < rating ? .pinkAccent : .grayDark)
-                    .font(.system(size: 12))
-            }
-        }
     }
 }

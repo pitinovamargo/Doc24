@@ -78,5 +78,3 @@ struct FreeReceptionTime: Codable {
         case time
     }
 }
-
-

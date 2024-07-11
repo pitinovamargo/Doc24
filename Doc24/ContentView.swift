@@ -14,8 +14,8 @@ enum Tab {
 struct ContentView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedTab: Tab = .main
+    @StateObject private var doctorViewModel = DoctorListViewModel()
     private var doctorService: DoctorService = DoctorService()
-    @StateObject private var doctorViewModel = DoctorViewModel()
     
     var body: some View {
         // первая вкладка таббара "Главная"
@@ -31,25 +31,22 @@ struct ContentView: View {
                                 
                                 // кнопки сортировки
                                 SortButtonsView(doctorViewModel: doctorViewModel)
-
+                                
                                 // карточки с врачами
-                                if doctorViewModel.doctors.isEmpty {
-                                    Text("Loading...") // добавить ProgressHud
+                                if doctorViewModel.currentDoctorsState.isEmpty {
+                                    ProgressView("Loading...")
+                                        .progressViewStyle(CircularProgressViewStyle())
+                                        .padding()
                                 }
                                 VStack(spacing: 16) {
-                                    ForEach(doctorViewModel.doctors) { doctor in
-                                        DoctorCard(doctor: doctor)
+                                    ForEach(doctorViewModel.currentDoctorsState) { doctor in
+                                        DoctorCard(viewModel: DoctorCardViewModel(doctor: doctor))
                                             .overlay(RoundedRectangle(cornerRadius: 8.0).strokeBorder(Color.grayBasic, style: StrokeStyle(lineWidth: 1.0)))
                                             .padding(.horizontal, 16)
                                     }
                                 }
                                 .padding(.top, 16)
                             }
-                        }
-                    }
-                    .onAppear {
-                        doctorService.fetchDoctors { fetchedDoctors in
-                            doctorViewModel.doctors = fetchedDoctors
                         }
                     }
                     .navigationBarTitle("Педиатры", displayMode: .inline)
@@ -134,13 +131,6 @@ struct ContentView: View {
             .frame(maxHeight: .infinity)
             .accentColor(.pinkAccent)
         }
-    }
-}
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
 
