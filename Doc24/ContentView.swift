@@ -87,7 +87,7 @@ struct ContentView: View {
                 .accentColor(.pinkAccent)
                 .tabItem {
                     VStack {
-                        Image("Calendar")
+                        Image("Appointments")
                             .renderingMode(.template)
                         Text("Приёмы")
                     }
